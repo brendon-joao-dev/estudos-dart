@@ -4,7 +4,7 @@ import "dart:math";
 
 // Classe System:
 // - Atributos: bool rodando
-// - Métodos: rodarPrograma(), continuarPrograma(), entrarDados()
+// - Métodos: rodarPrograma(), continuarPrograma()
 class System {
   // Atributos:
   bool rodando; // Define se o programa deve rodar ou não chamar rodarPrograma()
@@ -18,24 +18,112 @@ class System {
     this.rodando = true;
     while (rodando) {
       algoritmo();
+      continuarPrograma();
     }
     this.rodando = false;
   }
 
   // Método que pergunta ao usuário se quer continuar o programa, retornando true ou false
-  bool continuarPrograma({String mensagem = ""}) {
+  void continuarPrograma() {
     String continuar = "";
     while (true) {
-      stdout.write(mensagem);
+      stdout.write("Deseja repetir o programa? (s/n): ");
       continuar = stdin.readLineSync()!.toLowerCase().trim();
       print("");
 
       if (continuar == "s") {
-        return true;
+        rodando = true;
+        break;
       } else if (continuar == "n") {
-        return false;
+        rodando = false;
+        break;
       } else {
         print("Por favor digite 's' para sim ou 'n' para não!\n");
+        continue;
+      }
+    }
+  }
+}
+
+// Classe Entrada:
+// - Métodos: entrarDados()
+class Entrada {
+  int entrarInt({
+    String mensagemEntrada = "Entre com um valor: ",
+    String mensagemInvalida = "Por favor entre com algum valor!",
+    bool positivo = false,
+  }) {
+    while (true) {
+      stdout.write(mensagemEntrada);
+      String entrada = stdin.readLineSync() ?? "";
+      print("");
+
+      if (positivo) {
+        if (int.tryParse(entrada) != null && !int.parse(entrada).isNegative) {
+          return int.parse(entrada);
+        } else {
+          print(mensagemInvalida);
+          print("");
+          continue;
+        }
+      } else {
+        if (int.tryParse(entrada) != null) {
+          return int.parse(entrada);
+        } else {
+          print(mensagemInvalida);
+          print("");
+          continue;
+        }
+      }
+    }
+  }
+
+  double entrarDouble({
+    String mensagemEntrada = "Entre com um valor: ",
+    String mensagemInvalida = "Por favor entre com algum valor!",
+    bool positivo = false,
+  }) {
+    while (true) {
+      stdout.write(mensagemEntrada);
+      String entrada = stdin.readLineSync() ?? "";
+      print("");
+
+      if (positivo) {
+        if (double.tryParse(entrada) != null &&
+            !double.parse(entrada).isNegative) {
+          return double.parse(entrada);
+        } else {
+          print(mensagemInvalida);
+          print("");
+          continue;
+        }
+      } else {
+        if (double.tryParse(entrada) != null) {
+          return double.parse(entrada);
+        } else {
+          print(mensagemInvalida);
+          print("");
+          continue;
+        }
+      }
+    }
+  }
+
+  String entrarString({
+    String mensagemEntrada = "Entre com um valor: ",
+    String mensagemInvalida = "Por favor entre com algum valor!",
+    bool positivo = false,
+  }) {
+    while (true) {
+      stdout.write(mensagemEntrada);
+      String entrada = stdin.readLineSync() ?? "";
+      print("");
+
+      if (!entrada.trim().isEmpty) {
+        return entrada;
+      } else {
+        print(mensagemInvalida);
+        print("");
         continue;
       }
     }
@@ -107,24 +195,30 @@ class System {
 }
 
 // Classe Calculadora:
-// - Métodos: soma(), subtracao(), multiplicacao(), divisao(), restoDivisao(), divisaoInteira(), media(), antecessorSucessor(), dobrarTriplicar(), tabuada(), verificarPar(), verificarImpar()
+// - Métodos: somar(), subtrair(), multiplicar(), dividir(), restoDivisao(), divisaoInteira(), media(), antecessorSucessor(), dobrarTriplicar(), tabuada(), verificarPar(), verificarImpar()
 class Calculadora {
-  double soma({double n1 = 0, double n2 = 0}) {
+  double n1;
+  double n2;
+  List<double> valores;
+
+  Calculadora({this.n1 = 0, this.n2 = 0, required this.valores});
+
+  double somar() {
     double soma = n1 + n2;
     return soma;
   }
 
-  double subtracao({double n1 = 0, double n2 = 0}) {
+  double subtrair() {
     double subtracao = n1 - n2;
     return subtracao;
   }
 
-  double multiplicacao({double n1 = 0, double n2 = 0}) {
+  double multiplicar() {
     double multiplicacao = n1 * n2;
     return multiplicacao;
   }
 
-  double divisao({double n1 = 0, double n2 = 0}) {
+  double dividir() {
     if (n2 == 0) {
       n2 = 1;
     }
@@ -133,7 +227,7 @@ class Calculadora {
     return divisao;
   }
 
-  double restoDivisao({double n1 = 0, double n2 = 0}) {
+  double restoDivisao() {
     if (n2 == 0) {
       n2 = 1;
     }
@@ -142,7 +236,7 @@ class Calculadora {
     return restoDivisao;
   }
 
-  double divisaoInteira({double n1 = 0, double n2 = 0}) {
+  double divisaoInteira() {
     if (n2 == 0) {
       n2 = 1;
     }
@@ -151,9 +245,9 @@ class Calculadora {
     return divisaoInteira;
   }
 
-  double media({required List<double> valores}) {
+  double media() {
     double soma = valores.reduce((soma, n) => soma += n);
-    double media = soma / 4;
+    double media = soma / valores.length;
     return media;
   }
 
@@ -236,19 +330,38 @@ class Datas {
     this.anoAtual = DateTime.now().year.toInt();
   }
 
-  int calcularIdade() {
-    int idade = anoAtual - ano;
-    return idade;
-  }
+  int calcularIdade() => anoAtual - ano;
 }
 
 // Classe Moedas:
 // - Atributos: double valorReais
 // - Métodos: converterEuros(), converterWons(), converterDolares()
+class Moeda {
+  double valorReais;
+
+  Moeda({this.valorReais = 0});
+
+  double converterEuros() => valorReais * 0.16;
+
+  double converterWons() => valorReais * 270.45;
+
+  double converterDolares() => valorReais * 0.18;
+}
 
 // Classe Juros:
 // - Atributos: double montante, double investimento, double tempo, double taxa
 // - Métodos: calcularJurosSimples(), calcularJurosCompostos()
+
+class Juros {
+  double montante;
+  double investimento;
+  double tempo;
+  double taxa;
+
+  Juros({this.montante = 0, this.investimento = 0, this.tempo = 0, this.taxa = 0});
+
+  double calcularJurosSimples 
+}
 
 // Classe Fisica:
 // - Atributos: double temperatura
