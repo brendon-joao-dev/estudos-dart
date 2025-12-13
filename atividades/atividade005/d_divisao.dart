@@ -4,10 +4,32 @@
 import "dart:io";
 
 void main() {
-  System sistema = System(algoritmo: () {
-    
-  });
-  
+  System sistema = System(
+    algoritmo: () {
+      Entrada entrada = Entrada();
+      double n1 = 0;
+      double n2 = 0;
+      double resultado = 0;
+
+      n1 = entrada.entrarDouble(
+        mensagemEntrada: "Entre com o 1º valor: ",
+        mensagemInvalida: "Por favor entre com um número!",
+      );
+
+      n2 = entrada.entrarDouble(
+        mensagemEntrada: "Entre com o 2º valor: ",
+        mensagemInvalida: "Por favor entre com um número!",
+      );
+
+      Calculadora calculadora = Calculadora(n1: n1, n2: n2);
+
+      resultado = calculadora.dividir();
+
+      print("A divisão de $n1 por $n2 é ${resultado.toStringAsFixed(4)}");
+      print("");
+    },
+  );
+
   sistema.rodarPrograma();
 }
 
@@ -55,7 +77,7 @@ class System {
 }
 
 // Classe Entrada:
-// - Métodos: entrarDados()
+// - Métodos: entrarDouble()
 class Entrada {
   double entrarDouble({
     String mensagemEntrada = "Entre com um valor: ",
@@ -90,6 +112,7 @@ class Entrada {
 }
 
 // Classe Calculadora:
+// - Atributos: double n1, double n2
 // - Métodos: dividir()
 class Calculadora {
   double n1;
