@@ -10,6 +10,7 @@ void main() {
 
       int ano_nascimento = entrada.entrarInt(
         mensagemEntrada: "Entre com seu ano de nascimento: ",
+        mensagemInvalida: "Por favor entre com um ano positivo!",
         positivo: true,
       );
 
@@ -103,7 +104,7 @@ class Entrada {
 }
 
 // Classe Datas:
-// - Atributos: int ano
+// - Atributos: int ano, int anoAtual
 // - Métodos: calcularIdade()
 class Datas {
   late int ano;
