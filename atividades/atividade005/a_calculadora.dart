@@ -10,9 +10,11 @@ void main() {
       Entrada entrada = Entrada();
       double n1 = entrada.entrarDouble(
         mensagemEntrada: "Entre com um número: ",
+        mensagemInvalida: "Por favor entre com um número!",
       );
       double n2 = entrada.entrarDouble(
         mensagemEntrada: "Entre com um número: ",
+        mensagemInvalida: "Por favor entre com um número!",
       );
 
       Calculadora calculadora = Calculadora(n1: n1, n2: n2);
@@ -121,6 +123,7 @@ class Entrada {
 }
 
 // Classe Calculadora:
+// - Atributos: double n1, double n2
 // - Métodos: somar(), subtrair(), multiplicar(), dividir(), restoDivisao(), divisaoInteira()
 class Calculadora {
   double n1;
