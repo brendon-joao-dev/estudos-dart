@@ -12,6 +12,8 @@ void main() {
 
       numero_notas = entrada.entrarInt(
         mensagemEntrada: "De quantas notas deseja calcular a média: ",
+        mensagemInvalida: "Por favor entre com uma quantidade positiva!",
+        positivo: true,
       );
 
       for (int i = 1; i <= numero_notas; i++) {
@@ -78,7 +80,7 @@ class System {
 }
 
 // Classe Entrada:
-// - Métodos: entrarInt()
+// - Métodos: entrarDouble(), entrarInt()
 class Entrada {
   double entrarDouble({
     String mensagemEntrada = "Entre com um valor: ",
@@ -143,6 +145,7 @@ class Entrada {
 }
 
 // Classe Calculadora:
+// - Atributos: List<double> valores
 // - Métodos: media()
 class Calculadora {
   List<double> valores;
