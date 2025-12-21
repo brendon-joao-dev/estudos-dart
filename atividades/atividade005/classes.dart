@@ -46,7 +46,7 @@ class System {
 }
 
 // Classe Entrada:
-// - Métodos: entrarDados()
+// - Métodos: entrarInt(), entrarDouble(), entrarString(), entrarDados()
 class Entrada {
   int entrarInt({
     String mensagemEntrada = "Entre com um valor: ",
@@ -195,7 +195,7 @@ class Entrada {
 }
 
 // Classe Calculadora:
-// - Métodos: somar(), subtrair(), multiplicar(), dividir(), restoDivisao(), divisaoInteira(), media(), antecessorSucessor(), dobrarTriplicar(), tabuada(), verificarPar(), verificarImpar()
+// - Métodos: somar(), subtrair(), multiplicar(), dividir(), restoDivisao(), divisaoInteira(), media(), antecessorSucessor(), dobrarTriplicar(), tabuada()
 class Calculadora {
   double n1;
   double n2;
@@ -251,37 +251,21 @@ class Calculadora {
     return media;
   }
 
-  List<int> antecessorSucessor({int numero = 0}) {
-    int antecessor = numero - 1;
-    int sucessor = numero + 1;
+  List<double> antecessorSucessor() {
+    double antecessor = n1 - 1;
+    double sucessor = n1 + 1;
     return [antecessor, sucessor];
   }
 
-  List<double> dobrarTriplicar({double numero = 0}) {
-    double dobro = numero * 2;
-    double triplo = numero * 3;
+  List<double> dobrarTriplicar() {
+    double dobro = n1 * 2;
+    double triplo = n1 * 3;
     return [dobro, triplo];
   }
 
-  void tabuada({int numero = 0}) {
+  void tabuada() {
     for (int i = 1; i <= 10; i++) {
-      print("$numero X $i = ${numero * i}");
-    }
-  }
-
-  bool verificarPar({int numero = 0}) {
-    if (numero % 2 == 0) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  bool verificarImpar({int numero = 0}) {
-    if (numero % 2 != 0) {
-      return true;
-    } else {
-      return false;
+      print("$n1 X $i = ${n1 * i}");
     }
   }
 }
@@ -348,29 +332,136 @@ class Moeda {
   double converterDolares() => valorReais * 0.18;
 }
 
+// Classe ConversorMedidas:
+// - Atributos: double medida
+// - Métodos: converterParaCentimetros(), converterParaQuilometros()
+class ConversorMedidas {
+  double medida;
+
+  ConversorMedidas({this.medida = 0});
+
+  double converterParaCentimetros() => medida * 100;
+
+  double converterParaQuilometros() => medida / 1000;
+}
+
 // Classe Juros:
 // - Atributos: double montante, double investimento, double tempo, double taxa
 // - Métodos: calcularJurosSimples(), calcularJurosCompostos()
-
 class Juros {
-  double montante;
+  late double montante;
   double investimento;
   double tempo;
   double taxa;
 
-  Juros({this.montante = 0, this.investimento = 0, this.tempo = 0, this.taxa = 0});
+  Juros({this.investimento = 0, this.tempo = 0, this.taxa = 0});
 
-  double calcularJurosSimples 
+  void calcularJurosSimples() {
+    this.montante = investimento + (investimento * (taxa / 100) * tempo);
+  }
+
+  void calcularJurosCompostos() {
+    this.montante = investimento * pow((1 + (taxa / 100)), tempo);
+  }
 }
 
 // Classe Fisica:
 // - Atributos: double temperatura
 // - Métodos: converterCelcius(), converterFahnheit()
+class Fisica {
+  double temperatura;
+
+  Fisica({this.temperatura = 0});
+
+  double converterCelcius() => ((temperatura * 9) / 5) + 32;
+
+  double converterFahnheit() => ((temperatura - 32) * 5) / 9;
+}
 
 // Classe Saude:
 // - Atributos: double altura, double peso
-// - Nétodos: calcularIMC()
+// - Métodos: calcularIMC()
+class Saude {
+  double altura;
+  double peso;
 
-// Classe Filtros:
+  Saude({this.altura = 0, this.peso = 0});
+
+  double calcularIMC() => peso / pow(altura, 2);
+}
+
+// Classe FiltroModificador:
 // - Atributos: int a, int b, int c
-// - Métodos: saoIguais(), verificarPositivo(), verificarNegativo(), verificarParImpar(), ordenarDecrescente()
+// - Métodos: verificarIguaisDiferentes(), verificarPositivoNegativo(), verificarParImpar(), ordenarDecrescente()
+class FiltroModificador {
+  int a;
+  int b;
+  int c;
+
+  FiltroModificador({this.a = 0, this.b = 0, this.c = 0});
+
+  void verificarIguaisDiferentes() {
+    if (a == b) {
+      int c = a + b;
+      print("A soma de $a e $b é $c");
+    } else {
+      int c = a * b;
+      print("A multiplicação de $a e $b é $c");
+    }
+    print("");
+  }
+
+  void verificarPositivoNegativo() {
+    if (!a.isNegative) {
+      int c = a * 2;
+      print("O dobro de $a é $c");
+    } else {
+      int c = a * 3;
+      print("O triplo de $a é $c");
+    }
+    print("");
+  }
+
+  void verificarParImpar() {
+    if (a % 2 == 0) {
+      int c = a + 5;
+      print("$a + 5 = $c");
+    } else {
+      int c = a + 8;
+      print("$a + 8 = $c");
+    }
+    print("");
+  }
+
+  List<int> ordenarDecrescente() {
+    List<int> numeros = [a, b, c];
+    numeros.sort();
+    numeros = numeros.reversed.toList();
+    return numeros;
+  }
+}
+
+// Classe Verificador:
+// - Atributos: int numero
+// - Métodos: verificarPar(), verificarImpar()
+class Verificador {
+  int numero;
+
+  Verificador({this.numero = 0});
+
+  bool verificarPar() {
+    if (numero % 2 == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool verificarImpar() {
+    if (numero % 2 != 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
